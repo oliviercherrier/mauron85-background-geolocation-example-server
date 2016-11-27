@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var config = require('./config/auth.js');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -24,6 +25,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+
+// load mongoose package
+var mongoose = require('mongoose');
+// Use native Node promises
+mongoose.Promise = global.Promise;
+
+var options = {
+  user: config.bgauth.login,
+  pass: config.bgauth.password
+}
+
+// connect to MongoDB
+mongoose.connect('mongodb://vps342125.ovh.net/background-geolocation-test', options)
+  .then(() =>  console.log('connection succesful'))
+  .catch((err) => console.error(err));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
