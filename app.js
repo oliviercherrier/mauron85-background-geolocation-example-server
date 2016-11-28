@@ -8,7 +8,7 @@ var config = require('./config/auth.js');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-
+var locations = require('./routes/locations')
 var app = express();
 
 // view engine setup
@@ -25,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/locations', locations);
 
 // load mongoose package
 var mongoose = require('mongoose');
