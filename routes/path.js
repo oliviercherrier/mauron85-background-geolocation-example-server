@@ -15,9 +15,12 @@ router.post('/', function(req, res, next) {
     // Test if user exist
     User.findByName(req.body.Phone_uuid, function(err, user) {
         console.log(user);
+        console.log(user.length);
         // If not create it
         if(user.length == 0){
-            User.create({phone_id: req.body.Phone_uuid}, function(error, doc) {
+            console.log("Try to create user");
+            // Try to save User
+            User.create({phone_uuiid: req.body.Phone_uuid}, function(error, doc) {
                 if (err) {console.log(err);}
             });
         }

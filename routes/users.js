@@ -11,12 +11,29 @@ router.get('/', function(req, res, next) {
   });
 });
 
-/* POST /todos */
+router.get('/:phone_uuid',  function(req, res) {
+  User.findByUuid(req.params.phone_uuid, function(err, user) {
+    if (err) res.send(err);
+    res.json(user);
+  });
+});
+
+/* POST /user */
 router.post('/', function(req, res, next) {
-  User.create(req.body, function (err, post) {
+  User.create(
+    {
+      phone_uuid: req.body.User.phone_uuid, 
+      first_name: req.body.User.first_name, 
+      last_name: req.body.User.last_name,
+      nickname: req.body.User.nickname,
+      email: req.body.User.email
+    }
+    , function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
 });
+
+
 
 module.exports = router;
