@@ -6,7 +6,7 @@ var UserSchema = new mongoose.Schema({
   phone_uuid: String,
   nickname: String,
   email: String,
-  paths : [{ type: Number, ref: 'Path' }]
+  paths : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Path' }]
 });
 
 UserSchema.statics.findByUuid = function(name, cb) {

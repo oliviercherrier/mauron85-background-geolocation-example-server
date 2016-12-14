@@ -10,26 +10,14 @@ var User = require('../models/User.js')
 // Prend en paramètre un identifiant de téléphone et retourne le path créé
 // req.body
 router.post('/', function(req, res, next) {
-    console.log("BODY:");
-    console.log(req.body);
-    // Test if user exist
-    User.findByName(req.body.Phone_uuid, function(err, user) {
-        console.log(user);
-        console.log(user.length);
-        // If not create it
-        if(user.length == 0){
-            console.log("Try to create user");
-            // Try to save User
-            User.create({phone_uuiid: req.body.Phone_uuid}, function(error, doc) {
-                if (err) {console.log(err);}
-            });
-        }
+    // Create new Path and affect to user with Phone_uuid
+    var newPath = Path.create({is_active: true}, function(err,createdPath){
+        if(err) return next(err);
+        User.findByUuid(req.body.Phone_uuid, function(err, users) {
+            users[0].paths.push(createdPath);
+            users[0].save(function(error,doc) {if (err) {console.log(err);}});
+        });
     });
-    
-    /*var path = Path.create({is_active: true}, function (err, post) {
-        if (err) return next(err);
-        res.json(post);
-    });*/
 });
 
 module.exports = router;
