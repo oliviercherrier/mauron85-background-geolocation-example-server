@@ -25,9 +25,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
-app.use('/locations', locations);
-app.use('/path',routePath);
+app.use('/mauron85-bgeoloc-api/users', users);
+app.use('/mauron85-bgeoloc-api/locations', locations);
+app.use('/mauron85-bgeoloc-api/path',routePath);
 
 // load mongoose package
 var mongoose = require('mongoose');
