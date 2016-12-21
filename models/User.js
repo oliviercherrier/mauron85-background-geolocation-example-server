@@ -10,7 +10,7 @@ var UserSchema = new mongoose.Schema({
 });
 
 UserSchema.statics.findByUuid = function(name, cb) {
-  return this.find({ phone_uuid: new RegExp(name, 'i') }, cb);
+  return this.findOne({ phone_uuid: new RegExp(name, 'i') }, cb);
 };
 
 module.exports = mongoose.model('User', UserSchema);

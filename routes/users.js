@@ -11,10 +11,24 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/populated',  function(req, res) {
+  User.find(function(err, users) {
+    if (err) res.send(err);
+    res.json(users);
+  })
+  .populate({path:'paths', populate: { path: 'locations' }});
+});
+
 router.get('/:phone_uuid',  function(req, res) {
   User.findByUuid(req.params.phone_uuid, function(err, user) {
     if (err) res.send(err);
-    res.json(user);
+    if(!user){
+      res.sendStatus(204);
+    }
+    else{
+      res.json(user);
+    }
+    
   });
 });
 
@@ -33,7 +47,5 @@ router.post('/', function(req, res, next) {
     res.json(post);
   });
 });
-
-
 
 module.exports = router;

@@ -11,30 +11,30 @@ router.post( '/open/', function(req, res, next) {
     // Create new Path and affect to user with Phone_uuid
     var newPath = Path.create({is_active: true}, function(err,createdPath){
         if(err) return next(err);
-        User.findByUuid(req.body.Phone_uuid, function(err, users) {
-            users[0].paths.push(createdPath);
-            users[0].save(function(error,user) {
+        User.findByUuid(req.body.Phone_uuid, function(err, user) {
+            user.paths.push(createdPath);
+            user.save(function(error,user) {
                 if (err) {return next(err);}
                 res.json(user);
             });
         });
     });
 
-    res.sendStatus(200);
+    
 });
 
 router.post('/close/', function(req, res, next) {
     // Search active path and close it
-     User.findByUuid(req.body.Phone_uuid, function(err, users) {})
+     User.findByUuid(req.body.Phone_uuid, function(err, user) {})
         .populate({path: 'paths', match: {is_active: true}} )
-        .exec(function(err, users){
-            users[0].paths[0].is_active = false;
-            users[0].paths[0].save(function(error,post) {
+        .exec(function(err, user){
+            user.paths[0].is_active = false;
+            user.paths[0].save(function(error,post) {
                 if (err) {return next(err);}
-                res.json(users[0].paths[0]);
+                res.json(user.paths[0]);
             });
         });
-    res.sendStatus(200);
+    
 });
 
 module.exports = router;
